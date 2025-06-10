@@ -68,7 +68,7 @@ cd newlib-newlib-4.5.0/
     --disable-newlib-supplied-syscalls \
     --disable-nls \
     CFLAGS_FOR_TARGET="-Os -ffunction-sections -fdata-sections -mcmodel=medlow" \
-    CXXFLAGS_FOR_TARGET="-Os -ffunction-sections -fdata-sections -mcmodel=medlow" \
+    CXXFLAGS_FOR_TARGET="-Os -ffunction-sections -fdata-sections -mcmodel=medlow"
 
 make -j$(nproc)
 make install
