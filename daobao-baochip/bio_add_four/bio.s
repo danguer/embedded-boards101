@@ -7,12 +7,9 @@
 # the setup of the threshold is going to be handled in the host side
 # so the FIFO0 Treshold0 or event[24] is going to happen
 _start:
-    li t0, 0x1000000 # mask for event[24]
+    li x27, 0x1000000       # only interested in this event
 wait_for_event:
-    mv t1, x30      # halt for event
-    beq t0, t1, do_sum
-    j wait_for_event
-do_sum:
+    mv x0, x30      # halt for event
     # load the four values from FIFO0
     # add without a loop
     li t2, 0 # sum

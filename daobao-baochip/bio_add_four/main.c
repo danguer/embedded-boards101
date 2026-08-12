@@ -3,12 +3,10 @@
 #include "hardware/bio.h"
 
 #define BIO_CORE 0x1
-static const uint32_t bio_program_length = 15;
+static const uint32_t bio_program_length = 13;
 static const uint32_t bio_program[] = {
-    0x010002b7,
-    0x000f0313,
-    0x00628463,
-    0xff9ff06f,
+    0x01000db7,
+    0x000f0013,
     0x00000393,
     0x00080313,
     0x006383b3,
@@ -19,9 +17,8 @@ static const uint32_t bio_program[] = {
     0x00080313,
     0x006383b3,
     0x00038893,
-    0xfcdff06f
+    0xfd5ff06f
 };
-
 
 int main(void)
 {
@@ -40,7 +37,11 @@ int main(void)
     // [23:16]	FIFO_EVENT_GT_MASK
     // so for this needs the bit 8 = 1 to enable FIFO0,Threshold0 == mask
     // and trigger Event24
+    BIO_SFR_ELEVEL = 0x4;
     BIO_SFR_ETYPE = 0x100;
+
+    // reset event register
+    bio_event_clear(0xFFFFFFFF); // sdk
 
     /* Main CPU is free */
     uint32_t base = 0;
@@ -54,7 +55,7 @@ int main(void)
         // wait for result
         while(bio_fifo_empty(1));
         mini_printf(
-            "%d + %d + %d + %d = %d\r\n",
+            "%u + %u + %u + %u = %u\r\n",
             base,
             base+1,
             base+2,

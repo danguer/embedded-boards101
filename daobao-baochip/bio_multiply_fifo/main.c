@@ -2,19 +2,6 @@
 #include "bao.h"
 #include "hardware/bio.h"
 
-/*
- * BIO program: toggles BIO pin 2 (PB2) with quantum timing.
- *
- *   addi  x5, x0, 4       ; bit mask for pin 2
- *   addi  x26, x5, 0      ; GPIO mask = pin 2
- *   addi  x24, x5, 0      ; pin 2 = output
- * loop:
- *   addi  x22, x5, 0      ; set pin 2 HIGH
- *   addi  x20, x0, 0      ; wait quantum
- *   addi  x23, x0, 0      ; clear pin 2 LOW
- *   addi  x20, x0, 0      ; wait quantum
- *   jal   x0, -16          ; loop
- */
 #define BIO_CORE 0x1
 static const uint32_t bio_program_length = 3;
 static const uint32_t bio_program[] = {
@@ -37,8 +24,6 @@ int main(void)
     uint32_t result;
     while(1) {
         // put into fifo0
-        bio_event_clear(0xFFFFFFFF); // sdk
-        // BIO_SFR_EVENT_CLR = 0xFFFFFFFF; // direct register
         bio_start_cores(BIO_CORE);
         bio_push_fifo0(multiplicand); // sdk
         // BIO_SFR_TXF0 = multiplicand; // direct register
